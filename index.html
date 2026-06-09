@@ -16,7 +16,6 @@
             background-color: #0d0e12; 
             display: flex; 
         }
-
         #sidebar {
             width: 320px;
             height: 100%;
@@ -29,16 +28,13 @@
             flex-direction: column;
             z-index: 1000;
         }
-
         .sidebar-header {
             padding: 25px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             background: rgba(0, 0, 0, 0.2);
         }
-
         .sidebar-header h1 { font-size: 20px; color: #5aa1e2; text-transform: uppercase; margin-bottom: 5px; }
         .sidebar-header p { font-size: 12px; color: #8fa0b5; text-transform: uppercase; }
-
         .gang-list { flex: 1; overflow-y: auto; padding: 15px; }
         .gang-item {
             padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.03);
@@ -47,13 +43,11 @@
         }
         .gang-item:hover { background: rgba(255, 255, 255, 0.08); }
         .color-dot { width: 14px; height: 14px; border-radius: 50%; margin-right: 12px; }
-
         #map { flex: 1; height: 100%; background-color: #14161d; z-index: 1; }
         .leaflet-popup-content-wrapper { background: rgba(20, 24, 33, 0.85); backdrop-filter: blur(10px); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
-
     <div id="sidebar">
         <div class="sidebar-header">
             <h1>Chicago Gang Map</h1>
@@ -61,17 +55,14 @@
         </div>
         <div class="gang-list" id="gang-list"></div>
     </div>
-
     <div id="map"></div>
-
     <script>
         var map = L.map('map', { minZoom: 2, maxZoom: 4, zoomControl: true, attributionControl: false }).setView([0, 0], 2);
         L.tileLayer('https://wariacikpompeusz.github.io/lol/{z}/{x}/{y}.png', { maxZoom: 4, minZoom: 2, noWrap: true }).addTo(map);
-
         // EDYTUJ TUTAJ:
         var gangs = [
             {
-                name: "147/PapBlock,"
+                name: "147/PapBlock",
                 color: "#ff0000",
                 description: "Damenville/LocCity/PapBlock - Leader :Tweakerdagen5",
                 coords: [
@@ -82,12 +73,10 @@
                 ]
             }
         ];
-
         var listContainer = document.getElementById('gang-list');
         gangs.forEach(function(gang) {
             var polygon = L.polygon(gang.coords, { color: gang.color, fillColor: gang.color, fillOpacity: 0.35, weight: 2 }).addTo(map);
             polygon.bindPopup("<h3>" + gang.name + "</h3><p>" + gang.description + "</p>");
-
             var listItem = document.createElement('div');
             listItem.className = 'gang-item';
             listItem.style.borderLeftColor = gang.color;
@@ -95,7 +84,6 @@
             listItem.onclick = function() { map.flyToBounds(polygon.getBounds(), { duration: 0.5 }); setTimeout(function() { polygon.openPopup(); }, 500); };
             listContainer.appendChild(listItem);
         });
-
         map.on('contextmenu', function(e) {
             var kordy = "[" + e.latlng.lat.toFixed(2) + ", " + e.latlng.lng.toFixed(2) + "],";
             L.popup().setLatLng(e.latlng).setContent("<b>Skopiuj kordy:</b><br><code style='user-select:all; color:#0f0;'>" + kordy + "</code>").openOn(map);
