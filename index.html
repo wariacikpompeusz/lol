@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chicago Gang Map - Beyond Trench</title>
+    <title>Los Santos Gang Map - Beyond Trench</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -50,15 +50,23 @@
 <body>
     <div id="sidebar">
         <div class="sidebar-header">
-            <h1>Chicago Gang Map</h1>
+            <h1>Los Santos Gang Map</h1>
             <p>Beyond Trench</p>
         </div>
         <div class="gang-list" id="gang-list"></div>
     </div>
     <div id="map"></div>
     <script>
-        var map = L.map('map', { minZoom: 2, maxZoom: 4, zoomControl: true, attributionControl: false }).setView([0, 0], 2);
-        L.tileLayer('https://wariacikpompeusz.github.io/lol/{z}/{x}/{y}.png', { maxZoom: 4, minZoom: 2, noWrap: true }).addTo(map);
+        // Środek mapy ustawiony na centrum Los Santos
+        var map = L.map('map', { minZoom: 2, maxZoom: 5, zoomControl: true, attributionControl: false }).setView([0, 0], 3);
+        
+        // Zmiana na standardowe kafelki mapy GTA V (Atlas)
+        L.tileLayer('https://raw.githubusercontent.com/TheGamerWithin/GTA-V-Map-Tiles/master/tiles/atlas/{z}/{x}/{y}.jpg', { 
+            maxZoom: 5, 
+            minZoom: 2, 
+            noWrap: true 
+        }).addTo(map);
+
         // EDYTUJ TUTAJ:
         var gangs = [
             {
@@ -84,6 +92,7 @@
                 ]
             }
         ];
+        
         var listContainer = document.getElementById('gang-list');
         gangs.forEach(function(gang) {
             var polygon = L.polygon(gang.coords, { color: gang.color, fillColor: gang.color, fillOpacity: 0.35, weight: 2 }).addTo(map);
@@ -95,6 +104,7 @@
             listItem.onclick = function() { map.flyToBounds(polygon.getBounds(), { duration: 0.5 }); setTimeout(function() { polygon.openPopup(); }, 500); };
             listContainer.appendChild(listItem);
         });
+        
         map.on('contextmenu', function(e) {
             var kordy = "[" + e.latlng.lat.toFixed(2) + ", " + e.latlng.lng.toFixed(2) + "],";
             L.popup().setLatLng(e.latlng).setContent("<b>Skopiuj kordy:</b><br><code style='user-select:all; color:#0f0;'>" + kordy + "</code>").openOn(map);
