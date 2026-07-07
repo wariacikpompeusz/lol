@@ -57,29 +57,26 @@
     </div>
     <div id="map"></div>
     <script>
+        // Konfiguracja mapy z zoomem od 1 do 5
         var map = L.map('map', { 
             minZoom: 1, 
             maxZoom: 5, 
             zoomControl: true, 
             attributionControl: false 
-        }).setView([-45, -35], 2); // Punkt startowy kamery dopasowany bliżej Twoich kordów
+        }).setView([-50, -35], 3); // Kamera startuje wycentrowana na rejony gangów
+
+        // Nazwa Twojego pliku graficznego z mapą
+        var imageUrl = 'LosSantos-GTAV-Map.webp'; 
         
-        // --- ZMIANY TUTAJ ---
-        
-        // 1. Podaj ścieżkę do swojego obrazka (może to być plik na serwerze/komputerze np. 'mapa.png' albo link URL)
-        var imageUrl = 'TUTAJ_WKLEJ_LINK_DO_ZDJECIA_MAPY.jpg'; 
-        
-        // 2. Ustal granice dla obrazka. Te wartości (od lewego dolnego rogu do prawego górnego rogu) 
-        // sprawią, że obrazek rozciągnie się na wirtualnej siatce.
-        // Będziesz musiał lekko zmodyfikować te liczby (szczególnie jeśli wgrasz inną proporcję mapy), 
-        // aby strefy (np. 147/PapBlock) idealnie "siadły" na ulicach.
+        // Granice rozciągnięcia obrazka na siatce kordów.
+        // Jeśli strefy będą przesunięte względem ulic, możesz modyfikować te wartości,
+        // aby idealnie dopasować tło pod istniejące współrzędne polygonów.
         var imageBounds = [[-85.0, -180.0], [85.0, 180.0]];
         
-        // 3. Dodaj obrazek jako warstwę
+        // Nałożenie pojedynczego obrazka jako tła mapy
         L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
-        // --- KONIEC ZMIAN ---
-
+        // Dane gangów i stref
         var gangs = [
             {
                 name: "147/PapBlock🔱✡️",
@@ -105,18 +102,25 @@
             }
         ];
         
+        // Generowanie listy w sidebarze i nakładanie stref na mapę
         var listContainer = document.getElementById('gang-list');
         gangs.forEach(function(gang) {
             var polygon = L.polygon(gang.coords, { color: gang.color, fillColor: gang.color, fillOpacity: 0.35, weight: 2 }).addTo(map);
             polygon.bindPopup("<h3>" + gang.name + "</h3><p>" + gang.description + "</p>");
+            
             var listItem = document.createElement('div');
             listItem.className = 'gang-item';
             listItem.style.borderLeftColor = gang.color;
             listItem.innerHTML = '<div class="color-dot" style="background:'+gang.color+'"></div>' + gang.name;
-            listItem.onclick = function() { map.flyToBounds(polygon.getBounds(), { duration: 0.5 }); setTimeout(function() { polygon.openPopup(); }, 500); };
+            
+            listItem.onclick = function() { 
+                map.flyToBounds(polygon.getBounds(), { duration: 0.5 }); 
+                setTimeout(function() { polygon.openPopup(); }, 500); 
+            };
             listContainer.appendChild(listItem);
         });
         
+        // Kliknięcie prawym przyciskiem myszy wyświetla kordy gotowe do skopiowania
         map.on('contextmenu', function(e) {
             var kordy = "[" + e.latlng.lat.toFixed(2) + ", " + e.latlng.lng.toFixed(2) + "],";
             L.popup().setLatLng(e.latlng).setContent("<b>Skopiuj kordy:</b><br><code style='user-select:all; color:#0f0;'>" + kordy + "</code>").openOn(map);
