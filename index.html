@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chicago Gang Map - Beyond Trench</title>
+    <title>Los Santos Gang Map - Beyond Trench</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -57,11 +57,10 @@
     </div>
     <div id="map"></div>
     <script>
-        // Środek mapy ustawiony na centrum Los Santos
         var map = L.map('map', { minZoom: 2, maxZoom: 5, zoomControl: true, attributionControl: false }).setView([0, 0], 3);
         
-        // Zmiana na standardowe kafelki mapy GTA V (Atlas)
-        L.tileLayer('https://raw.githubusercontent.com/TheGamerWithin/GTA-V-Map-Tiles/master/tiles/atlas/{z}/{x}/{y}.jpg', { 
+        // Zmiana formatu z .jpg na .png
+        L.tileLayer('https://raw.githubusercontent.com/TheGamerWithin/GTA-V-Map-Tiles/master/tiles/atlas/{z}/{x}/{y}.png', { 
             maxZoom: 5, 
             minZoom: 2, 
             noWrap: true 
