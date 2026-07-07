@@ -57,16 +57,15 @@
     </div>
     <div id="map"></div>
     <script>
-        var map = L.map('map', { minZoom: 2, maxZoom: 5, zoomControl: true, attributionControl: false }).setView([0, 0], 3);
+        var map = L.map('map', { minZoom: 2, maxZoom: 4, zoomControl: true, attributionControl: false }).setView([0, 0], 2);
         
-        // Zmiana formatu z .jpg na .png
-        L.tileLayer('https://raw.githubusercontent.com/TheGamerWithin/GTA-V-Map-Tiles/master/tiles/atlas/{z}/{x}/{y}.png', { 
-            maxZoom: 5, 
+        // Z powrotem Twój działający link!
+        L.tileLayer('https://wariacikpompeusz.github.io/lol/{z}/{x}/{y}.png', { 
+            maxZoom: 4, 
             minZoom: 2, 
             noWrap: true 
         }).addTo(map);
 
-        // EDYTUJ TUTAJ:
         var gangs = [
             {
                 name: "147/PapBlock🔱✡️",
